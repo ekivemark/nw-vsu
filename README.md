@@ -45,7 +45,10 @@ That's it. Pretty simple.
 
 The Digest now supports Hashtags. If you include a hashtag eg. #BBonFHIR in a bullet
 the digest process will pull all #hashtags and include them in a Highlight section 
-at the bottom of the digest email.
+at the bottom of the digest email. 
+
+* I just built a really #Awesome feature
+
 
 ## Developing
 
