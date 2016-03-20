@@ -1,20 +1,27 @@
 ## What is this?
 
-This is a lightweight project to collect and process BlueButton team snippets.  Every Monday morning, the current BBOnFHIR Team will receive an e-mail asking for updates or blockers -- anything that they want to share with the group.  Each member replies to the e-mail, and at the end of the day, a digest e-mail is sent out to the group.
+This is a lightweight project to collect and process BlueButton team snippets.  
+Every Monday morning, the current BBOnFHIR Team will receive an e-mail asking for updates or blockers 
+-- anything that they want to share with the group.  
+Each member replies to the e-mail, and at the end of the day, 
+a digest e-mail is sent out to the group.
 
-To subscribe people on the team, admins (Mark and Karl) subscribe people over email by sending the APP a request. For example, to subscribe Chris and Niall, we send this to our messaging server via `admin@bb-team-update.appspotmail.com`:
+To subscribe people on the team, admins (Mark and Karl) 
+subscribe people over email by sending the APP a request. 
+For example, to subscribe Chris and Niel, 
+we send this to our messaging server via `admin@bb-team-update.appspotmail.com`:
 
 ```
-Chris Cox, christine.cox@cms.hhs.gov, bbtu, subscribe 
-Niall Brennan, niall.brennanw@cms.hhs.gov, bbtu, subscribe
+Chris Kox, christine.cox@cms.hhs.gov, bbtu, subscribe 
+Niel Bannon, niel.bannonw@cms.hhs.gov, bbtu, subscribe
 ```
 
-Oops. Chris needs to be an admin and Niall wants to unsubscribe. No problem:
+Oops. Chris needs to be an admin and Niel wants to unsubscribe. No problem:
 
 ```
-Chris Cox, christine.cox@cms.hhs.gov, bbtu, subscribe, admin
+Chris Kox, christine.kox@cms.hhs.gov, bbtu, subscribe, admin
 
-Niall Brennan, niall.brennan@cms.hhs.gov, bbtu, subscribe, bbtu, unsubscribe
+Niel Bannon, niel.bannon@cms.hhs.gov, bbtu, subscribe, bbtu, unsubscribe
 ```
 
 The server sends back a confirmation email each time with a summary of subscriptions:
@@ -22,12 +29,13 @@ The server sends back a confirmation email each time with a summary of subscript
 ```
 Your changes were saved:
 
-Chris Cox, christine.cox@cms.hhs.gov, bbtu, subscribe, admin
+Chris Kox, christine.cox@cms.hhs.gov, bbtu, subscribe, admin
 
-Niall Brennan, niall.brennan@cms.hhs.gov, bbtu, subscribe, bbtu, unsubscribe
+Niel Bannon, niel.bannon@cms.hhs.gov, bbtu, subscribe, bbtu, unsubscribe
 ```
 
-Note that this project supports multiple teams, so that as long as the cron jobs are appropriately specified, 
+Note that this project supports multiple teams, 
+so that as long as the cron jobs are appropriately specified, 
 you can use this project for other teams.  
 So, for example, you can swap out `bbtu` in the admin e-mails for `ccw` or whatever.
 
@@ -47,8 +55,8 @@ Endpoints will be available at http://localhost:8080 and
 the admin console will be available at http://localhost:8000. 
 
 You can send update and admin emails using the admin form at http://localhost:8000/mail. 
-For update emails, the reply-to address must match the reply-to address in the update reminder email that gets sent. 
-Watch the dev console for the address.
+For update emails, the reply-to address must match the reply-to address in the update reminder 
+email that gets sent. Watch the dev console for the address.
 
 App Engine admins can manually invoke the `/cron/update` endpoint to send out update emails. 
 Similarly they can invoke the `/cron/digest` endpoint to trigger the digest email. 
@@ -64,7 +72,8 @@ Copy the `Reply-to:` address in your console, which will look like `update+ahJkZ
 into the `To:` line at `localhost:8000/mail`.  
 In the from line, paste the subscriber e-mail, in this case `mark@ekivemark.com`.  
 In the message body, type an example update with each line preceded by `*`.  
-3. Navigate to `localhost:8080/cron/digest/bbtu` to send the digest to the team (of only one person, currently).  
+3. Navigate to `localhost:8080/cron/digest/bbtu` to send the digest to the team 
+(of only one person, currently).  
 The digest body will appear in the console.  
 
 Push to production with `appcfg.py update --oauth2 .`, as long as you have permissions 
