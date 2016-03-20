@@ -6,18 +6,21 @@ subscriptions.
 """
 
 
-def _process(line, team='pif', status='subscribe', bundle=False):
-    """Accepts a line with {first},{last},{agency},{email} and returns a
-    properly formatted string for subscription email."""
+def _process(line, team='bbtu', status='subscribe', bundle=False):
+    """
+    Accepts a line with {first},{last},{agency},{email} and returns a
+    properly formatted string for subscription email.
+    """
     first, last, agency, email = [x.strip() for x in line.split(',')]
     name = '%s %s' % (first, last)
 
     if bundle:
         team_bundler = {
-            'Ashley Jablow': 'Ashley Jablow//David Naffis',
-            'David Naffis': 'Ashley Jablow//David Naffis',
-            'Christopher Daggett': 'Christopher Daggett//Ben Getson',
-            'Ben Getson': 'Christopher Daggett//Ben Getson'
+            'Mark Scrimshire': 'OEDA BlueButtonOnFHIR',
+            'Karl Davis': 'OEDA BlueButtonOnFHIR',
+            'Lori Maatta': 'OEDA BlueButtonOnFHIR',
+            'Carly Medosch': 'OEDA BlueButtonOnFHIR',
+            'Alan Viars': 'OEDA BlueButtonOnFHIR'
         }
         if name in team_bundler.keys():
             name = team_bundler[name]
@@ -26,8 +29,10 @@ def _process(line, team='pif', status='subscribe', bundle=False):
 
 
 def convert_csv(csv_path='subscribe.csv'):
-    """Accepts a filepath string to the csv and prints out the text body for a
-    subscription email."""
+    """
+    Accepts a filepath string to the csv and prints out the text body for a
+    subscription email.
+    """
     with open(csv_path) as f:
         content = f.readlines()
     for l in content:

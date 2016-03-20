@@ -2,18 +2,17 @@
 
 import email
 import logging
-import webapp2
 
+import webapp2
 from google.appengine.api import mail
 from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
 
 import model
 
-
 _ADMINS = [
-    'daniel.hammer@gsa.gov',
-    'dan.s.hammer@gmail.com',
-    'michelle.m.hood@gmail.com'
+    'mark@ekivemark.com',
+    'lori.maatta@cms.hhs.gov',
+    'karl.davis@cms.hhs.gov'
 ]
 
 
@@ -53,12 +52,12 @@ class AdminHandler(InboundMailHandler):
     @classmethod
     def get_subscription_msg(cls, to, report):
         """Returns EmailMessage for supplied recipient and report."""
-        reply_to = 'PIF <noreply@piffer-updates.appspotmail.com>'
+        reply_to = 'BBTU <noreply@bb-team-update.appspotmail.com>'
         fields = dict(
             sender=reply_to,
             to=to,
             reply_to=reply_to,
-            subject='[PIF] Admin confirmation - Your changes were saved',
+            subject='[BBTU] Admin confirmation - Your changes were saved',
             body=report)
         return mail.EmailMessage(**fields)
 

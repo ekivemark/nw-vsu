@@ -12,11 +12,15 @@ from model import SubscriberUpdate
 
 
 class UpdateHandler(InboundMailHandler):
-    """Handler for incoming update emails from subscribers."""
+    """
+    Handler for incoming update emails from subscribers.
+    """
 
     @classmethod
     def get_update(cls, body):
-        """Process body to update lines starting with *, return as string."""
+        """
+        Process body to update lines starting with *, return as string.
+        """
 
         def _cleaner(s, break_list):
             clean_text = s
@@ -48,10 +52,11 @@ class UpdateHandler(InboundMailHandler):
 
     @classmethod
     def get_urlsafe(cls, address):
-        """Return urlsafe string from supplied email address.
+        """
+        Return urlsafe string from supplied email address.
 
-        Example: 'PIF <update+ag5kZXZ@piffer-updates.appspotmail.com>' would
-        return ag5kZXZ as the urlsafe string.
+        Example: 'PIF <update+ag5kZXZ@piffer-updates.appspotmail.com>'
+        would return ag5kZXZ as the urlsafe string.
         """
         if address.find('<') > -1:
             urlsafe = address.split('<')[1].split('+')[1].split('@')[0]
@@ -61,7 +66,9 @@ class UpdateHandler(InboundMailHandler):
 
     @classmethod
     def process_update(cls, address, body):
-        """Process update from supplied message.to address and body."""
+        """
+        Process update from supplied message.to address and body.
+        """
         urlsafe = cls.get_urlsafe(address)
         if not urlsafe:
             logging.error('Unable to extract urlsafe from %s' % address)
@@ -72,7 +79,8 @@ class UpdateHandler(InboundMailHandler):
         return subscriber_update
 
     def receive(self, message):
-        """Updates SubscriberUpdate model message using urlsafe key from
+        """
+        Updates SubscriberUpdate model message using urlsafe key from
         reply-to address and message contained in the mail body.
         """
         body = [b.decode() for t, b in message.bodies('text/plain')][0]

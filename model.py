@@ -23,7 +23,7 @@ class Subscriber(ndb.Model):
 
     @classmethod
     def subscribed(cls, team):
-        """Return all subsribers for supplied team."""
+        """Return all subscribers for supplied team."""
         return cls.query(
             cls.status == 'subscribe',
             cls.team == team.lower()
@@ -34,7 +34,7 @@ class SubscriberUpdate(ndb.Model):
     """Represents a subscriber update and used to create a digest email.
 
     The keyname is mail+date+team"""
-    name = ndb.StringProperty()  # Subsriber name
+    name = ndb.StringProperty()  # Subscriber name
     mail = ndb.StringProperty()  # Subscriber mail
     team = ndb.StringProperty()  # The WRI team name
     message = ndb.TextProperty()

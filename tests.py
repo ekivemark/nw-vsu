@@ -26,9 +26,9 @@ class TestModel(unittest.TestCase):
         self.testbed.deactivate()
 
     def test_Subscriber(self):
-        data = [dict(name='dan', mail='dan@hammer.com', team='pif',
+        data = [dict(name='mark', mail='mark@ekivemark.com', team='bbtu',
                      status='subscribe', role='admin'),
-                dict(name='aaron', mail='aaron@hammer.com', team='pif',
+                dict(name='alan', mail='alan.viars@videntity.com', team='bbtu',
                      status='subscribe')]
 
         for x in data:
@@ -63,9 +63,9 @@ class TestUpdateHandler(unittest.TestCase):
     def test_get_urlsafe(self):
         f = update.UpdateHandler.get_urlsafe
         tests = {
-            'PIFfer <update+ag5kZXZ@pif-update.appspotmail.com>': 'ag5kZXZ',
-            '<update+ag5kZXZ@pif-update.appspotmail.com>': 'ag5kZXZ',
-            'update+ag5kZXZ@pif-update.appspotmail.com': 'ag5kZXZ',
+            'BBTU <update+ag5kZXZ@bb-team-update.appspotmail.com>': 'ag5kZXZ',
+            '<update+ag5kZXZ@bb-team-update.appspotmail.com>': 'ag5kZXZ',
+            'update+ag5kZXZ@bb-team-update.appspotmail.com': 'ag5kZXZ',
         }
         urlsafe = 'ag5kZXZ'
         for address, urlsafe in tests.iteritems():
@@ -77,14 +77,14 @@ class TestUpdateHandler(unittest.TestCase):
         # Create SubscriberUpdate
         date = datetime.datetime.now()
         x = model.SubscriberUpdate.get_or_insert(
-            'dan', 'dan@hammer.com', 'pif', date)
+            'mark', 'mark@ekivemark.com', 'bbtu', date)
         urlsafe = x.key.urlsafe()
-        address = 'PIF <update+%s@pif-update.appspotmail.com>' % urlsafe
+        address = 'BBTU <update+%s@bb-team-update.appspotmail.com>' % urlsafe
         body = '* did nothing\n* met nobody'
         f(address, body)
 
         # Check that the update message made it
-        key_name = '%s+%s+%s' % ('pif', 'dan@hammer.com', date.isoformat())
+        key_name = '%s+%s+%s' % ('bbtu', 'mark@ekivemark.com', date.isoformat())
         x = model.SubscriberUpdate.get_by_id(key_name)
         self.assertIsNotNone(x)
         self.assertEqual(x.message, body)
@@ -106,18 +106,18 @@ class TestCronDigestHandler(unittest.TestCase):
     def test_get_update(self):
         f = cron.CronDigestHandler.get_update
         update = f(model.SubscriberUpdate(
-            name='dan', mail='dan@hammer.com', message='* dude'))
-        self.assertEqual(update, 'dan <dan@hammer.com>\n* dude\n\n')
+            name='mark', mail='mark@ekivemark.com', message='* dude'))
+        self.assertEqual(update, 'mark <mark@ekivemark.com>\n* dude\n\n')
 
     def test_get_digest_message(self):
         f = cron.CronDigestHandler.get_digest_message
         date = datetime.datetime.now()
-        msg = f('pif', 'digest', date, 'dan@hammer.com')
+        msg = f('bbtu', 'digest', date, 'mark@ekivemark.com')
         msg.send()
-        messages = self.mail_stub.get_sent_messages(to='dan@hammer.com')
+        messages = self.mail_stub.get_sent_messages(to='mark@ekivemark.com')
         self.assertEqual(1, len(messages))
         message = messages[0]
-        self.assertEqual('dan@hammer.com', message.to)
+        self.assertEqual('mark@ekivemark.com', message.to)
         body = [b.decode() for t, b in message.bodies('text/plain')][0]
         self.assertEqual(body, 'digest')
 
@@ -125,13 +125,13 @@ class TestCronDigestHandler(unittest.TestCase):
         f = cron.CronDigestHandler.get_subscriber_updates
         date = datetime.datetime.now()
         x = model.SubscriberUpdate.get_or_insert(
-            name='dan', team='pif', mail='dan@hammer.com', date=date)
+            name='mark', team='bbtu', mail='mark@ekivemark.com', date=date)
         x.message = '* dude'
         x.put()
 
         x = model.SubscriberUpdate.get_or_insert(
-            name='dan', team='pif', mail='dan@hammer.com', date=date)
-        updates = f('pif', date)
+            name='mark', team='bbtu', mail='mark@ekivemark.com', date=date)
+        updates = f('bbtu', date)
         self.assertEqual(len(updates), 1)
         self.assertEqual(updates[0].message, '* dude')
 
@@ -139,37 +139,37 @@ class TestCronDigestHandler(unittest.TestCase):
         f = cron.CronDigestHandler.process_digest
 
         # Test no latest update
-        f('pif')
+        f('bbtu')
         self.assertIsNone(model.SubscriberDigest.query().get())
-        self.assertEqual([], self.mail_stub.get_sent_messages(to='dan@hammer.com'))
+        self.assertEqual([], self.mail_stub.get_sent_messages(to='mark@ekivemark.com'))
 
         # Test has update but no subscribers
         date = datetime.datetime.now()
-        model.Update.get_or_insert('pif', date)
-        f('pif')
+        model.Update.get_or_insert('bbtu', date)
+        f('bbtu')
         self.assertIsNone(model.SubscriberDigest.query().get())
-        self.assertEqual([], self.mail_stub.get_sent_messages(to='dan@hammer.com'))
+        self.assertEqual([], self.mail_stub.get_sent_messages(to='mark@ekivemark.com'))
 
         # Test has update and subscriber but no digest
         model.Subscriber.get_or_insert(
-            name='dan', team='pif', mail='dan@hammer.com', status='subscribe')
-        digest = f('pif', test=True)
+            name='dan', team='bbtu', mail='mark@ekivemark.com', status='subscribe')
+        digest = f('bbtu', test=True)
         self.assertIsNone(model.SubscriberDigest.query().get())
         self.assertIs(digest, '')
-        self.assertEqual([], self.mail_stub.get_sent_messages(to='dan@hammer.com'))
+        self.assertEqual([], self.mail_stub.get_sent_messages(to='mark@ekivemark.com'))
 
         # Test has update and subscriber and digest
         x = model.SubscriberUpdate.get_or_insert(
-            name='dan', team='pif', mail='dan@hammer.com', date=date)
+            name='dan', team='bbtu', mail='mark@ekivemark.com', date=date)
         x.message = '* dude'
         x.put()
-        digest = f('pif')
-        key_name = '%s+%s+%s' % ('pif', 'dan@hammer.com', date.isoformat())
+        digest = f('bbtu')
+        key_name = '%s+%s+%s' % ('bbtu', 'mark@ekivemark.com', date.isoformat())
         sd = model.SubscriberDigest.get_by_id(key_name)
         self.assertIsNotNone(sd)
         self.assertTrue(sd.sent)
         self.assertEqual(digest, 'dan <dan@hammer.com>\n* dude\n\n')
-        self.assertNotEqual([], self.mail_stub.get_sent_messages(to='dan@hammer.com'))
+        self.assertNotEqual([], self.mail_stub.get_sent_messages(to='mark@ekivemark.com'))
 
 
 class TestCronUpdateHandler(unittest.TestCase):
@@ -193,7 +193,7 @@ class TestCronUpdateHandler(unittest.TestCase):
 
     def test_get_update_message(self):
         f = cron.CronUpdateHandler.get_update_message
-        team = 'pif'
+        team = 'bbtu'
         to = 'daniel.hammer@gsa.gov'
         sender = 'update+foo@pif-update.appspotmail.com'
         date = datetime.datetime.now()
@@ -210,37 +210,37 @@ class TestCronUpdateHandler(unittest.TestCase):
 
     def test_process_subscriber_update(self):
         f = cron.CronUpdateHandler.process_subscriber_update
-        data = dict(name='dan', mail='dan@hammer.com', team='pif',
+        data = dict(name='dan', mail='mark@ekivemark.com', team='bbtu',
                     status='subscribe', role='admin')
         sub = model.Subscriber.get_or_insert(**data)
         date = datetime.datetime.now()
 
         f(date, sub)
 
-        key_name = '%s+%s+%s' % ('pif', 'dan@hammer.com', date.isoformat())
+        key_name = '%s+%s+%s' % ('bbtu', 'mark@ekivemark.com', date.isoformat())
         subup = model.SubscriberUpdate.get_by_id(key_name)
         self.assertTrue(subup.sent)
 
-        messages = self.mail_stub.get_sent_messages(to='dan@hammer.com')
+        messages = self.mail_stub.get_sent_messages(to='mark@ekivemark.com')
         self.assertEqual(1, len(messages))
         message = messages[0]
-        self.assertEqual('dan@hammer.com', message.to)
+        self.assertEqual('mark@ekivemark.com', message.to)
         expect = "Just reply with a few brief bullets starting with *"
         body = [b.decode() for t, b in message.bodies('text/plain')][0]
         self.assertEqual(expect, body)
 
     def test_process_update(self):
         f = cron.CronUpdateHandler.process_update
-        data = [dict(name='dan', mail='dan@hammer.com', team='pif',
+        data = [dict(name='dan', mail='mark@ekivemark.com', team='bbtu',
                      status='subscribe', role='admin'),
-                dict(name='aaron', mail='aaron@hammer.com', team='pif',
+                dict(name='aaron', mail='aaron@hammer.com', team='bbtu',
                      status='subscribe')]
         date = datetime.datetime.now()
         for x in data:
             model.Subscriber.get_or_insert(**x)
 
-        f('pif', date)
-        subups = model.SubscriberUpdate.get_updates(date, 'pif')
+        f('bbtu', date)
+        subups = model.SubscriberUpdate.get_updates(date, 'bbtu')
         self.assertEqual(len(subups), 2)
 
 
@@ -269,10 +269,10 @@ class TestAdminHandler(unittest.TestCase):
     def test_get_subscriptions(self):
         f = admin.AdminHandler.get_subscriptions
         subs = [x for x in f(self.body)]
-        sub = dict(name='dan', mail='dan@hammer.com', team='pif',
+        sub = dict(name='dan', mail='mark@ekivemark.com', team='bbtu',
                    status='subscribe', role='admin')
         self.assertIn(sub, subs)
-        sub = dict(name='aaron', mail='aaron@hammer.com', team='pif',
+        sub = dict(name='aaron', mail='aaron@hammer.com', team='bbtu',
                    status='subscribe')
         self.assertIn(sub, subs)
         self.assertTrue(len(subs) == 2)
@@ -281,20 +281,20 @@ class TestAdminHandler(unittest.TestCase):
         f = admin.AdminHandler.update_subscription
 
         # Create new subscription
-        data = dict(name='dan', mail='DAN@HAMMER.COM', team='PIF',
+        data = dict(name='dan', mail='mark@ekivemark.com', team='bbtu',
                     status='subscribe', role='admin')
         f(data)
         sub = model.Subscriber.get_by_id('dan@hammer.com+gfw')
-        expected = dict(name='dan', mail='dan@hammer.com', team='pif',
+        expected = dict(name='dan', mail='mark@ekivemark.com', team='bbtu',
                         status='subscribe', role='admin')
         self.assertDictContainsSubset(sub.to_dict(), expected)
 
         # Update existing subscription
-        data = dict(name='DAN', mail='DAN@HAMMER.COM', team='PIF',
+        data = dict(name='MARK', mail='mark@ekivemark.com', team='bbtu',
                     status='subscribe')
         f(data)
-        sub = model.Subscriber.get_by_id('dan@hammer.com+gfw')
-        expected = dict(name='dan', mail='dan@hammer.com', team='pif',
+        sub = model.Subscriber.get_by_id('mark@ekivemark.com+gfw')
+        expected = dict(name='mark', mail='mark@ekivemark.com', team='bbtu',
                         status='subscribe', role=None)
         self.assertDictContainsSubset(sub.to_dict(), expected)
 

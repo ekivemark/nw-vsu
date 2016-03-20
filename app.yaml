@@ -1,4 +1,4 @@
-application: piffer-updates
+application: bb-team-update
 version: wip
 runtime: python27
 threadsafe: true
@@ -25,3 +25,5 @@ handlers:
   script: cron.handlers
   login: admin
 
+- url: /.*
+  script: main.app
