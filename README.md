@@ -41,6 +41,12 @@ So, for example, you can swap out `bbtu` in the admin e-mails for `ccw` or whate
 
 That's it. Pretty simple. 
 
+## New Feature
+
+The Digest now supports Hashtags. If you include a hashtag eg. #BBonFHIR in a bullet
+the digest process will pull all #hashtags and include them in a Highlight section 
+at the bottom of the digest email.
+
 ## Developing
 
 This project rides on the Google App Engine Python SDK runtime. 
