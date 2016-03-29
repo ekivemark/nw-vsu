@@ -12,14 +12,14 @@ For example, to subscribe Chris and Niel,
 we send this to our messaging server via `admin@bb-team-update.appspotmail.com`:
 
 ```
-Chris Kox, christine.cox@cms.hhs.gov, bbtu, subscribe 
+Chris Kox, chris.kox@cms.hhs.gov, bbtu, subscribe 
 Niel Bannon, niel.bannonw@cms.hhs.gov, bbtu, subscribe
 ```
 
 Oops. Chris needs to be an admin and Niel wants to unsubscribe. No problem:
 
 ```
-Chris Kox, christine.kox@cms.hhs.gov, bbtu, subscribe, admin
+Chris Kox, chris.kox@cms.hhs.gov, bbtu, subscribe, admin
 
 Niel Bannon, niel.bannon@cms.hhs.gov, bbtu, subscribe, bbtu, unsubscribe
 ```
@@ -29,7 +29,7 @@ The server sends back a confirmation email each time with a summary of subscript
 ```
 Your changes were saved:
 
-Chris Kox, christine.cox@cms.hhs.gov, bbtu, subscribe, admin
+Chris Kox, chris.kox@cms.hhs.gov, bbtu, subscribe, admin
 
 Niel Bannon, niel.bannon@cms.hhs.gov, bbtu, subscribe, bbtu, unsubscribe
 ```
@@ -49,6 +49,33 @@ at the bottom of the digest email.
 
 * I just built a really #Awesome feature
 
+
+## Bullet Point Convention
+
+Each item in an email reply should begin with an asterisk (*).
+The following convention is proposed for highlights.
+
+*  = Standard bullet item
+** = Completed Item
+*! = Priority Item or issue
+
+[DONE] = End of items
+
+The email message that is sent out contains the following message to reply to:
+
+Just reply with a few brief bullets starting with *. 
+Start line with ** to identify completed item.
+Start line with *! to identify priority item or issue.
+Use #hashtag to indicate a category. eg. #BBonFHIR or #HAPI.
+Finish with [DONE] if there is extraneous or quoted text at the end of the e-mail reply."
+ 
+## Next Feature(s)
+
+1. Summarize completed items (line starts with "**")
+2. Summarize Priority items or issues (line starts with "*!")
+ 
+3. Enable subscribe to Digest sub-section report.
+eg. Subscribe to Priority Items/Issues or Subscribe to #Hashtag report
 
 ## Developing
 

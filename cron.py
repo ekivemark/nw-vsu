@@ -31,8 +31,9 @@ class CronUpdateHandler(webapp2.RequestHandler):
         day = "{:%b %d, %Y}".format(date)
 
         header = "Just reply with a few brief bullets starting with *. \n"
-        header += "Use *^ to identify completed item. \n"
-        header += "Use #hashtag to indicate a category. eg. #BBonFHIR or #HAPI.\n"
+        header += "Start line with ** to identify completed item. \n"
+        header += "Start line with *! to identify priority item or issue. \n"
+        header += "Use #hashtag to indicate a category. eg. #BBonFHIR or #HAPI. \n"
         header += "Finish with [DONE] if there is extraneous or quoted "
         header += "text at the end of the e-mail reply."
 
