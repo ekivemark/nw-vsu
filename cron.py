@@ -148,7 +148,7 @@ class CronDigestHandler(webapp2.RequestHandler):
                 # Get all the lines with a Hashtag
                 if tag in l.lower():
                     if l.endswith('\r'):
-                        l = l[:-2]
+                        l = l[:-1]
                     hashtag[tag].append(l + "[" + x.name + "]")
 
         logging.info("Hashtags: %s" % hashtag)
