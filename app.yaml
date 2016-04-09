@@ -1,5 +1,5 @@
 application: bb-team-update
-version: v2-1
+version: v2-2
 runtime: python27
 threadsafe: true
 api_version: 1

@@ -11,28 +11,25 @@ subscribe people over email by sending the APP a request.
 For example, to subscribe Chris and Niel, 
 we send this to our messaging server via `admin@bb-team-update.appspotmail.com`:
 
-```
-Chris Kox, chris.kox@cms.hhs.gov, bbtu, subscribe 
-Niel Bannon, niel.bannonw@cms.hhs.gov, bbtu, subscribe
-```
+    Chris Kox, chris.kox@cms.hhs.gov, bbtu, subscribe  
+    Niel Bannon, niel.bannonw@cms.hhs.gov, bbtu, subscribe
+
 
 Oops. Chris needs to be an admin and Niel wants to unsubscribe. No problem:
 
-```
-Chris Kox, chris.kox@cms.hhs.gov, bbtu, subscribe, admin
 
-Niel Bannon, niel.bannon@cms.hhs.gov, bbtu, subscribe, bbtu, unsubscribe
-```
+    Chris Kox, chris.kox@cms.hhs.gov, bbtu, subscribe, admin
+
+    Niel Bannon, niel.bannon@cms.hhs.gov, bbtu, subscribe, bbtu, unsubscribe
 
 The server sends back a confirmation email each time with a summary of subscriptions:
 
-```
-Your changes were saved:
+    Your changes were saved:
 
-Chris Kox, chris.kox@cms.hhs.gov, bbtu, subscribe, admin
+    Chris Kox, chris.kox@cms.hhs.gov, bbtu, subscribe, admin
 
-Niel Bannon, niel.bannon@cms.hhs.gov, bbtu, subscribe, bbtu, unsubscribe
-```
+    Niel Bannon, niel.bannon@cms.hhs.gov, bbtu, subscribe, bbtu, unsubscribe
+
 
 Note that this project supports multiple teams, 
 so that as long as the cron jobs are appropriately specified, 
@@ -40,6 +37,11 @@ you can use this project for other teams.
 So, for example, you can swap out `bbtu` in the admin e-mails for `ccw` or whatever.
 
 That's it. Pretty simple. 
+
+## Current Version
+
+version: **v2-2**
+(set in app.yaml)
 
 ## New Feature
 
@@ -63,11 +65,14 @@ The following convention is proposed for highlights.
 
 The email message that is sent out contains the following message to reply to:
 
-Just reply with a few brief bullets starting with *. 
-Start line with ** to identify completed item.
-Start line with *! to identify priority item or issue.
-Use #hashtag to indicate a category. eg. #BBonFHIR or #HAPI.
-Finish with [DONE] if there is extraneous or quoted text at the end of the e-mail reply."
+
+   Just reply with a few brief bullets starting with *.  
+   Start line with ** to identify completed item.  
+   Start line with *! to identify priority item or issue.  
+   Use #hashtag to indicate a category. eg. #BBonFHIR or #HAPI.  
+   Finish with [DONE] if there is extraneous or quoted text at the end of the e-mail reply.  
+   If you send send more than 1 email the last sent email is used.  
+ 
  
 ## Next Feature(s)
 
@@ -114,3 +119,5 @@ The digest body will appear in the console.
 
 Push to production with `appcfg.py update --oauth2 .`, as long as you have permissions 
 (granted by [**@ekivemark**](https://github.com/ekivemark)).
+
+
