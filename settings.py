@@ -12,5 +12,5 @@ Created: 4/14/16 11:37 AM
 __author__ = 'Mark Scrimshire:@ekivemark'
 
 VERSION = "2.3"
-RELEASE = ".4"
+RELEASE = ".6"
 # Set in app.yaml
