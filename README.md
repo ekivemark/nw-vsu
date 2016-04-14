@@ -40,8 +40,13 @@ That's it. Pretty simple.
 
 ## Current Version
 
-version: **v2-2**
-(set in app.yaml)
+version: **v2-3**
+(set in app.yaml and in settings.py.VERSION)
+
+
+## Home Page
+
+http://bb-team-update.appspot.com
 
 ## New Feature
 
