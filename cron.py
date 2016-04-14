@@ -12,7 +12,7 @@ import webapp2
 from google.appengine.api import mail
 
 import model
-from .settings import VERSION
+from .settings import VERSION, RELEASE
 
 
 class CronUpdateHandler(webapp2.RequestHandler):
@@ -37,7 +37,7 @@ class CronUpdateHandler(webapp2.RequestHandler):
         header += "Use #hashtag to indicate a category. eg. #BBonFHIR or #HAPI. \n"
         header += "Finish with [DONE] if there is extraneous or quoted "
         header += "text at the end of the e-mail reply.\n"
-        header += "If you send send more than 1 email the last sent email is used. [BBTU-V:"+VERSION+"]"
+        header += "If you send send more than 1 email the last sent email is used. [BBTU-V:"+VERSION+RELEASE+"]"
 
         fields = dict(
             sender=sender,

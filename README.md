@@ -42,6 +42,10 @@ That's it. Pretty simple.
 
 version: **v2-3**
 (set in app.yaml and in settings.py.VERSION)
+If VERSION is changed in app.yaml go to the Google App Engine Dashboard and change the 
+application version that is serving traffic.
+
+Change RELEASE in settings.py to publish minor version information.
 
 
 ## Home Page
