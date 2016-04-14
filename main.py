@@ -15,10 +15,11 @@
 # limitations under the License.
 #
 import webapp2
+from .settings import VERSION
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('<html><body><b>Team updater</b>: Share your progress.<br/>')
+        self.response.write('<html><body><b>Team updater [V:%s]</b>: Share your progress.<br/>' % VERSION)
         self.response.write('Updates are sent every Monday and Thursday morning at 9:00am.<br/>')
         self.response.write('Consolidated digests are sent the same evening at 5:00pm.<br/>')
         self.response.write('If you send multiple email replies in a single day only the last one is recorded.<br/></body></html>')

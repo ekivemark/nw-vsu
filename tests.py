@@ -254,8 +254,8 @@ class TestAdminHandler(unittest.TestCase):
         self.testbed.init_mail_stub()
         self.mail_stub = self.testbed.get_stub(testbed.MAIL_SERVICE_NAME)
 
-        self.body = 'dan,dan@hammer.com,pif,subscribe,admin\n'
-        self.body += '\naaron, aaron@hammer.com , pif, subscribe'
+        self.body = 'mark,mark@ekivemark.com,bbtu,subscribe,admin\n'
+        self.body += '\nmark,mark@healthca.mp,bbtu,subscribe'
 
     def tearDown(self):
         self.testbed.deactivate()
@@ -263,16 +263,16 @@ class TestAdminHandler(unittest.TestCase):
     def test_is_admin(self):
         f = admin.AdminHandler.is_admin
         map(self.assertTrue,
-            map(f, ['daniel.hammer@gsa.gov', 'michelle.hood@gsa.gov']))
+            map(f, ['mark@ekivemark.com', 'mark@healthca.mp']))
         self.assertFalse(f('wannabe@admin.com'))
 
     def test_get_subscriptions(self):
         f = admin.AdminHandler.get_subscriptions
         subs = [x for x in f(self.body)]
-        sub = dict(name='dan', mail='mark@ekivemark.com', team='bbtu',
+        sub = dict(name='mark', mail='mark@ekivemark.com', team='bbtu',
                    status='subscribe', role='admin')
         self.assertIn(sub, subs)
-        sub = dict(name='aaron', mail='aaron@hammer.com', team='bbtu',
+        sub = dict(name='mark', mail='mark@healthca.mp', team='bbtu',
                    status='subscribe')
         self.assertIn(sub, subs)
         self.assertTrue(len(subs) == 2)
@@ -281,11 +281,11 @@ class TestAdminHandler(unittest.TestCase):
         f = admin.AdminHandler.update_subscription
 
         # Create new subscription
-        data = dict(name='dan', mail='mark@ekivemark.com', team='bbtu',
+        data = dict(name='mark', mail='mark@ekivemark.com', team='bbtu',
                     status='subscribe', role='admin')
         f(data)
-        sub = model.Subscriber.get_by_id('dan@hammer.com+gfw')
-        expected = dict(name='dan', mail='mark@ekivemark.com', team='bbtu',
+        sub = model.Subscriber.get_by_id('mark@ekivemark.com+gfw')
+        expected = dict(name='mark', mail='mark@ekivemark.com', team='bbtu',
                         status='subscribe', role='admin')
         self.assertDictContainsSubset(sub.to_dict(), expected)
 

@@ -71,7 +71,7 @@ The email message that is sent out contains the following message to reply to:
    Start line with *! to identify priority item or issue.  
    Use #hashtag to indicate a category. eg. #BBonFHIR or #HAPI.  
    Finish with [DONE] if there is extraneous or quoted text at the end of the e-mail reply.  
-   If you send send more than 1 email the last sent email is used.  
+   If you send send more than 1 email the last sent email is used. [BBTU-V:2.3]  
  
  
 ## Next Feature(s)
