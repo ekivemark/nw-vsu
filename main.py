@@ -16,7 +16,7 @@
 #
 import webapp2
 #from settings import VERSION, RELEASE
-VERSION = "2.3"
+VERSION = "2.4"
 RELEASE = ".8"
 
 class MainHandler(webapp2.RequestHandler):
