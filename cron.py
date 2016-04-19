@@ -14,7 +14,7 @@ from google.appengine.api import mail
 import model
 #from .settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".8"
+RELEASE = ".9"
 
 class CronUpdateHandler(webapp2.RequestHandler):
 

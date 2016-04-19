@@ -17,13 +17,14 @@
 import webapp2
 #from settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".8"
+RELEASE = ".9"
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('<html><body><b>Team updater [V:'+str(VERSION)+str(RELEASE)+']</b>: Share your progress.<br/>')
-        self.response.write('Updates are sent every Monday, Tuesday and Thursday morning at 9:00am.<br/>')
+        self.response.write('Updates are sent every Monday, Tuesday, Wednesday and Thursday morning at 9:00am.<br/>')
         self.response.write('Consolidated digests are sent the same evening at 5:00pm.<br/>')
+        self.response.write('Adding Tuesday and Wednesday for testing purposes.<br/>')
         self.response.write('If you send multiple email replies in a single day only the last one is recorded.<br/></body></html>')
 
 app = webapp2.WSGIApplication([ ('/', MainHandler) ], debug=True)

@@ -114,12 +114,14 @@ You can also hit `/cron/digest?test=true` to get an HTML response message with t
 
 A standard development progression follows:
 
-1. Navigate to the Inbound Mail tab at `localhost:8000` and send an e-mail with an admin as the 
-sender to `admin@bb-team-update.appspotmail.com` with a line resembling `mark,mark@ekivemark.com,bbtu,subscribe`.  
-Check that `mark` was added to the datastore by navigating to `localhost:8000/datastore?kind=Subscriber`.
+1. Navigate to the Inbound Mail tab at `localhost:8000` and send an e-mail 
+with an admin as the sender to `admin@bb-team-update.appspotmail.com` 
+with a line resembling `mark,mark@ekivemark.com,bbtu,subscribe`.  
+Check that `mark` was added to the datastore by navigating 
+to `localhost:8000/datastore?kind=Subscriber`.
 2. In a separate tab, navigate to `http://localhost:8080/cron/update/bbtu`.  
-Copy the `Reply-to:` address in your console, which will look like `update+ahJkZXZ...` and paste it 
-into the `To:` line at `localhost:8000/mail`.  
+Copy the `Reply-to:` address in your console, which will look like `update+ahJkZXZ...` 
+and paste it into the `To:` line at `localhost:8000/mail`.  
 In the from line, paste the subscriber e-mail, in this case `mark@ekivemark.com`.  
 In the message body, type an example update with each line preceded by `*`.  
 3. Navigate to `localhost:8080/cron/digest/bbtu` to send the digest to the team 

@@ -2,9 +2,9 @@ cron:
 # BBTU team
 - description: Sends BB-Team-update request email to all subscribers
   url: /cron/update/bbtu
-  schedule: every monday,tuesday,thursday 09:00
+  schedule: every monday,tuesday,wednesday,thursday 09:00
   timezone: America/New_York
 - description: Sends BB-Team-update digest email to all subscribers
   url: /cron/digest/bbtu
-  schedule: every monday,tuesday,thursday 17:00
+  schedule: every monday,tuesday,wednesday,thursday 17:00
   timezone: America/New_York
