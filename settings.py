@@ -12,5 +12,10 @@ Created: 4/14/16 11:37 AM
 __author__ = 'Mark Scrimshire:@ekivemark'
 
 VERSION = "2.3"
-RELEASE = ".6"
+RELEASE = ".8"
 # Set in app.yaml
+# set in main.py
+# set in cron.py
+# from .settings import VERSION, RELEASE
+# causes
+# ValueError: Attempted relative import in non-package

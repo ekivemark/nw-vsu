@@ -75,13 +75,14 @@ class AdminHandler(InboundMailHandler):
     def receive(self, message):
         """Receive mail, create/update subscriptions, mail confirmation."""
 
-        # body = [b.decode() for t, b in message.bodies('text/plain')][0]
+        print("Message:", message)
+        body = [b.decode() for t, b in message.bodies('text/plain')][0]
 
-        body = ""
-        for t, b in message.bodies('text/plain')[0]:
-            if b is not None:
-                print("B:",b)
-                body = b.decode()[0]
+        # body = ""
+        # for t, b in message.bodies('text/plain')[0]:
+        #     if b is not None:
+        #         print("B:",b)
+        #         body = b.decode()[0]
 
         self.process_message(message.sender, body)
 
