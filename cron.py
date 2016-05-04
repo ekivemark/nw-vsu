@@ -14,7 +14,7 @@ from google.appengine.api import mail
 import model
 #from .settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".11"
+RELEASE = ".12"
 
 class CronUpdateHandler(webapp2.RequestHandler):
 
@@ -94,14 +94,15 @@ class CronDigestHandler(webapp2.RequestHandler):
         Sends update reminder email to subscriber.
         """
         day = "{:%b %d, %Y}".format(date)
-        reply_to = 'BBTU <noreply@bb-team-update.appspotmail.com>'
+        reply_to = team.upper()+' <noreply@bb-team-update.appspotmail.com>'
+        digest += "\n goto http://issues.hhsdevcloud.us for more project details in JIRA. \n"
         fields = dict(
             sender=reply_to,
             to=to,
             reply_to=reply_to,
             subject='[BB-Team-update] %s team Digest - %s' % (team.upper(),
                                                            day),
-                                                           body=digest)
+            body=digest)
         return mail.EmailMessage(**fields)
 
     @classmethod
