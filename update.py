@@ -10,6 +10,8 @@ from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
 # Unused import required for ndb.Key
 from model import SubscriberUpdate
 
+CRON_TIME = "9:00 AM"
+# Change CRON_TIME in breaks.
 
 class UpdateHandler(InboundMailHandler):
     """
@@ -36,10 +38,10 @@ class UpdateHandler(InboundMailHandler):
             '[Done]',
             '-----Original Message-----',
             'Sent from my iPhone',
-            'On Mon, {0:%b} {0.day}, {0:%Y} at 10:00 AM, PIF'.format(dt),
-            'On Mon, {0:%b} {0.day}, {0:%Y}, at 10:00 AM, PIF'.format(dt),
-            'On {0:%b} {0.day}, {0:%Y} 10:00 AM'.format(dt),
-            'On {0:%b} {0.day}, {0:%Y}, at 10:00 AM'.format(dt),
+            'On Mon, {0:%b} {0.day}, {0:%Y} at 9:00 AM, BBTU'.format(dt),
+            'On Mon, {0:%b} {0.day}, {0:%Y}, at 9:00 AM, BBTU'.format(dt),
+            'On {0:%b} {0.day}, {0:%Y} 9:00 AM'.format(dt),
+            'On {0:%b} {0.day}, {0:%Y}, at 9:00 AM'.format(dt),
             'Just reply with a few brief bullets starting with'
         ]
 

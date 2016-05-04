@@ -14,7 +14,7 @@ from google.appengine.api import mail
 import model
 #from .settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".10"
+RELEASE = ".11"
 
 class CronUpdateHandler(webapp2.RequestHandler):
 
@@ -33,13 +33,15 @@ class CronUpdateHandler(webapp2.RequestHandler):
         day = "{:%b %d, %Y}".format(date)
 
         header = "Just reply with a few brief bullets starting with *. \n"
-        header += "Start line with ** to identify completed item. \n"
-        header += "Start line with *! to identify priority item or issue. \n"
+        header += "Start line with '* ^' to identify completed item. \n"
+        header += "Start line with '* !' to identify priority item or issue. \n"
         header += "Use #hashtag to indicate a category. eg. #BBonFHIR or #HAPI. \n"
         header += "Finish with [DONE] if there is extraneous or quoted "
         header += "text at the end of the e-mail reply.\n"
         header += "If you send send more than 1 email the last sent email is used. "
-        header += "[BBTU-V:"+str(VERSION)+str(RELEASE)+"]"
+        header += "[BBTU-V:"+str(VERSION)+str(RELEASE)+"] \n"
+        header += "goto http://issues.hhsdevcloud.us for more project details in JIRA. \n"
+
 
         fields = dict(
             sender=sender,
@@ -177,7 +179,8 @@ class CronDigestHandler(webapp2.RequestHandler):
             if tag in hashtag_string:
                 pass
             else:
-                hashtag_string += tag + ":\n"
+                # strip \n from Tag so that : prints on same line
+                hashtag_string += tag.rstrip("\n") + ":\n"
             for line in value:
                 hashtag_string += line + "\n"
 
