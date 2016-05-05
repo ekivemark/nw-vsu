@@ -14,7 +14,7 @@ from google.appengine.api import mail
 import model
 #from .settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".12"
+RELEASE = ".15"
 
 class CronUpdateHandler(webapp2.RequestHandler):
 
@@ -157,7 +157,7 @@ class CronDigestHandler(webapp2.RequestHandler):
                 if tag in l.lower():
                     if l.endswith('\r'):
                         l = l[:-1]
-                    hashtag[tag].append(l + "[" + x.name + "]")
+                    hashtag[tag].append(l + "  [" + x.name + "]")
 
         logging.info("Hashtags: %s" % hashtag)
 
@@ -177,15 +177,43 @@ class CronDigestHandler(webapp2.RequestHandler):
         logging.info("Hash list: %s" % hash_list)
 
         for tag,value in hash_list:
+            logging.info("processing tag: %s" % tag)
             if tag in hashtag_string:
                 pass
             else:
                 # strip \n from Tag so that : prints on same line
                 hashtag_string += tag.rstrip("\n") + ":\n"
             for line in value:
+                logging.info("processing: %s" % line)
+                if "#JIRA " in line.upper():
+                    line = cls.add_jira(line)
                 hashtag_string += line + "\n"
 
         return hashtag_string.encode('utf8')
+
+    @classmethod
+    def add_jira(cls, line):
+        """ Replace #JIRA {task_id} with JIRA_ISSUE_URL/{Task_id}"""
+        JIRA_ISSUE_URL = "http://issues.hhsdevcloud.us/browse/"
+
+        logging.info('convert jira link:%s' % line)
+
+        jira_call = ""
+        words = line.encode('utf8').split(" ")
+        for position, w in enumerate(words):
+            if w.upper() == "#JIRA":
+                if position < len(words):
+                    jira_call = JIRA_ISSUE_URL + words[position +1]
+                    words[position] = ""
+                    words[position + 1] = jira_call
+
+        rebuilt_line = ""
+        for w in words:
+            rebuilt_line += w + " "
+
+        logging.info("rebuilt line: %s" % rebuilt_line)
+
+        return rebuilt_line
 
     @classmethod
     def process_digest(cls, team, test=None):

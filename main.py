@@ -17,7 +17,7 @@
 import webapp2
 #from settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".12"
+RELEASE = ".15"
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -25,6 +25,7 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write('Updates are sent every weekday morning at 9:00am.<br/>')
         self.response.write('Consolidated digests are sent the same evening at 5:00pm.<br/>')
         self.response.write('The Team decision is to issue updates and digests every weekday.<br/>')
+        self.response.write('To link to JIRA use #JIRA followed by JIRA Task Id. eg. #JIRA CFFB-21. <br/>' )
         self.response.write('If you send multiple email replies in a single day only the last one is recorded.<br/></body></html>')
 
 app = webapp2.WSGIApplication([ ('/', MainHandler) ], debug=True)
