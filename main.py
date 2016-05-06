@@ -17,7 +17,7 @@
 import webapp2
 #from settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".15"
+RELEASE = ".16"
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):

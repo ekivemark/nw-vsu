@@ -14,7 +14,7 @@ from google.appengine.api import mail
 import model
 #from .settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".15"
+RELEASE = ".16"
 
 class CronUpdateHandler(webapp2.RequestHandler):
 
@@ -40,6 +40,7 @@ class CronUpdateHandler(webapp2.RequestHandler):
         header += "text at the end of the e-mail reply.\n"
         header += "If you send send more than 1 email the last sent email is used. "
         header += "[BBTU-V:"+str(VERSION)+str(RELEASE)+"] \n"
+        header += "https://bb-team-update.appspot.com for more info and help.\n"
         header += "goto http://issues.hhsdevcloud.us for more project details in JIRA. \n"
 
 
