@@ -12,7 +12,7 @@ Created: 4/14/16 11:37 AM
 __author__ = 'Mark Scrimshire:@ekivemark'
 
 VERSION = "2.4"
-RELEASE = ".16"
+RELEASE = ".17"
 # Set Version in app.yaml
 # set in main.py
 # set in cron.py

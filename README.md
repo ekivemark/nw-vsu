@@ -40,7 +40,10 @@ That's it. Pretty simple.
 
 ## Current Version
 
-version: **v2-3**
+version: **v2.4-17**
+
+Changed Cron jobs to 08:00 and 19:00 EDT
+
 (set in app.yaml and in settings.py.VERSION)
 If VERSION is changed in app.yaml go to the Google App Engine Dashboard and change the 
 application version that is serving traffic.
@@ -53,6 +56,14 @@ Change RELEASE in settings.py to publish minor version information.
 http://bb-team-update.appspot.com
 
 ## New Feature
+
+Prefix a JIRA Task-Id from http://issues.hhsdevcloud.us with #JIRA and the 
+BBTU Digest will add a hyperlink to the task in the Digest report
+eg. 
+    * Working on a new task #JIRA CBBP-45
+        
+
+## Hashtag summary support
 
 The Digest now supports Hashtags. If you include a hashtag eg. #BBonFHIR in a bullet
 the digest process will pull all #hashtags and include them in a Highlight section 
@@ -67,7 +78,7 @@ Each item in an email reply should begin with an asterisk (*).
 The following convention is proposed for highlights.
 
 *  = Standard bullet item
-** = Completed Item
+*^ = Completed Item
 *! = Priority Item or issue
 
 [DONE] = End of items
@@ -76,7 +87,7 @@ The email message that is sent out contains the following message to reply to:
 
 
    Just reply with a few brief bullets starting with *.  
-   Start line with ** to identify completed item.  
+   Start line with *^ to identify completed item.  
    Start line with *! to identify priority item or issue.  
    Use #hashtag to indicate a category. eg. #BBonFHIR or #HAPI.  
    Finish with [DONE] if there is extraneous or quoted text at the end of the e-mail reply.  
@@ -85,7 +96,7 @@ The email message that is sent out contains the following message to reply to:
  
 ## Next Feature(s)
 
-1. Summarize completed items (line starts with "**")
+1. Summarize completed items (line starts with "*^")
 2. Summarize Priority items or issues (line starts with "*!")
  
 3. Enable subscribe to Digest sub-section report.

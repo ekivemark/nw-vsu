@@ -20,15 +20,20 @@ class TestModel(unittest.TestCase):
         self.testbed.init_datastore_v3_stub()
         self.testbed.init_memcache_stub()
         self.testbed.init_mail_stub()
-        self.mail_stub = self.testbed.get_stub(testbed.MAIL_SERVICE_NAME)
+        self.m_stb = self.testbed.get_stub(testbed.MAIL_SERVICE_NAME)
 
     def tearDown(self):
         self.testbed.deactivate()
 
     def test_Subscriber(self):
-        data = [dict(name='mark', mail='mark@ekivemark.com', team='bbtu',
-                     status='subscribe', role='admin'),
-                dict(name='alan', mail='alan.viars@videntity.com', team='bbtu',
+        data = [dict(name='mark',
+                     mail='mark@ekivemark.com',
+                     team='bbtu',
+                     status='subscribe',
+                     role='admin'),
+                dict(name='alan',
+                     mail='alan.viars@videntity.com',
+                     team='bbtu',
                      status='subscribe')]
 
         for x in data:
@@ -45,7 +50,7 @@ class TestUpdateHandler(unittest.TestCase):
         self.testbed.init_datastore_v3_stub()
         self.testbed.init_memcache_stub()
         self.testbed.init_mail_stub()
-        self.mail_stub = self.testbed.get_stub(testbed.MAIL_SERVICE_NAME)
+        self.m_stb = self.testbed.get_stub(testbed.MAIL_SERVICE_NAME)
 
     def tearDown(self):
         self.testbed.deactivate()
@@ -84,7 +89,9 @@ class TestUpdateHandler(unittest.TestCase):
         f(address, body)
 
         # Check that the update message made it
-        key_name = '%s+%s+%s' % ('bbtu', 'mark@ekivemark.com', date.isoformat())
+        key_name = '%s+%s+%s' % ('bbtu',
+                                 'mark@ekivemark.com',
+                                 date.isoformat())
         x = model.SubscriberUpdate.get_by_id(key_name)
         self.assertIsNotNone(x)
         self.assertEqual(x.message, body)
@@ -98,23 +105,28 @@ class TestCronDigestHandler(unittest.TestCase):
         self.testbed.init_datastore_v3_stub()
         self.testbed.init_memcache_stub()
         self.testbed.init_mail_stub()
-        self.mail_stub = self.testbed.get_stub(testbed.MAIL_SERVICE_NAME)
+        self.m_stb = self.testbed.get_stub(testbed.MAIL_SERVICE_NAME)
 
     def tearDown(self):
         self.testbed.deactivate()
 
     def test_get_update(self):
         f = cron.CronDigestHandler.get_update
-        update = f(model.SubscriberUpdate(
-            name='mark', mail='mark@ekivemark.com', message='* dude'))
-        self.assertEqual(update, 'mark <mark@ekivemark.com>\n* dude\n\n')
+        update = f(model.SubscriberUpdate(name='mark',
+                                          mail='mark@ekivemark.com',
+                                          message='* dude'))
+        self.assertEqual(update,
+                         'mark <mark@ekivemark.com>\n* dude\n\n')
 
     def test_get_digest_message(self):
         f = cron.CronDigestHandler.get_digest_message
         date = datetime.datetime.now()
-        msg = f('bbtu', 'digest', date, 'mark@ekivemark.com')
+        msg = f('bbtu',
+                'digest',
+                date,
+                'mark@ekivemark.com')
         msg.send()
-        messages = self.mail_stub.get_sent_messages(to='mark@ekivemark.com')
+        messages = self.m_stb.get_sent_messages(to='mark@ekivemark.com')
         self.assertEqual(1, len(messages))
         message = messages[0]
         self.assertEqual('mark@ekivemark.com', message.to)
@@ -124,13 +136,17 @@ class TestCronDigestHandler(unittest.TestCase):
     def test_get_subscriber_update(self):
         f = cron.CronDigestHandler.get_subscriber_updates
         date = datetime.datetime.now()
-        x = model.SubscriberUpdate.get_or_insert(
-            name='mark', team='bbtu', mail='mark@ekivemark.com', date=date)
+        x = model.SubscriberUpdate.get_or_insert(name='mark',
+                                                 team='bbtu',
+                                                 mail='mark@ekivemark.com',
+                                                 date=date)
         x.message = '* dude'
         x.put()
 
-        x = model.SubscriberUpdate.get_or_insert(
-            name='mark', team='bbtu', mail='mark@ekivemark.com', date=date)
+        x = model.SubscriberUpdate.get_or_insert(name='mark',
+                                                 team='bbtu',
+                                                 mail='mark@ekivemark.com',
+                                                 date=date)
         updates = f('bbtu', date)
         self.assertEqual(len(updates), 1)
         self.assertEqual(updates[0].message, '* dude')
@@ -141,35 +157,48 @@ class TestCronDigestHandler(unittest.TestCase):
         # Test no latest update
         f('bbtu')
         self.assertIsNone(model.SubscriberDigest.query().get())
-        self.assertEqual([], self.mail_stub.get_sent_messages(to='mark@ekivemark.com'))
+        self.assertEqual([],
+                         self.m_stb.get_sent_messages(to='mark@ekivemark.com'))
 
         # Test has update but no subscribers
         date = datetime.datetime.now()
-        model.Update.get_or_insert('bbtu', date)
+        model.Update.get_or_insert('bbtu',
+                                   date)
         f('bbtu')
         self.assertIsNone(model.SubscriberDigest.query().get())
-        self.assertEqual([], self.mail_stub.get_sent_messages(to='mark@ekivemark.com'))
+        self.assertEqual([],
+                         self.m_stb.get_sent_messages(to='mark@ekivemark.com'))
 
         # Test has update and subscriber but no digest
-        model.Subscriber.get_or_insert(
-            name='dan', team='bbtu', mail='mark@ekivemark.com', status='subscribe')
-        digest = f('bbtu', test=True)
+        model.Subscriber.get_or_insert(name='dan',
+                                       team='bbtu',
+                                       mail='mark@ekivemark.com',
+                                       status='subscribe')
+        digest = f('bbtu',
+                   test=True)
         self.assertIsNone(model.SubscriberDigest.query().get())
         self.assertIs(digest, '')
-        self.assertEqual([], self.mail_stub.get_sent_messages(to='mark@ekivemark.com'))
+        self.assertEqual([],
+                         self.m_stb.get_sent_messages(to='mark@ekivemark.com'))
 
         # Test has update and subscriber and digest
-        x = model.SubscriberUpdate.get_or_insert(
-            name='dan', team='bbtu', mail='mark@ekivemark.com', date=date)
+        x = model.SubscriberUpdate.get_or_insert(name='dan',
+                                                 team='bbtu',
+                                                 mail='mark@ekivemark.com',
+                                                 date=date)
         x.message = '* dude'
         x.put()
         digest = f('bbtu')
-        key_name = '%s+%s+%s' % ('bbtu', 'mark@ekivemark.com', date.isoformat())
+        key_name = '%s+%s+%s' % ('bbtu',
+                                 'mark@ekivemark.com',
+                                 date.isoformat())
         sd = model.SubscriberDigest.get_by_id(key_name)
         self.assertIsNotNone(sd)
         self.assertTrue(sd.sent)
-        self.assertEqual(digest, 'dan <dan@hammer.com>\n* dude\n\n')
-        self.assertNotEqual([], self.mail_stub.get_sent_messages(to='mark@ekivemark.com'))
+        self.assertEqual(digest,
+                         'dan <dan@hammer.com>\n* dude\n\n')
+        self.assertNotEqual([],
+                            self.m_stb.get_sent_messages(to='mark@ekivemark.com'))
 
 
 class TestCronUpdateHandler(unittest.TestCase):
@@ -217,7 +246,9 @@ class TestCronUpdateHandler(unittest.TestCase):
 
         f(date, sub)
 
-        key_name = '%s+%s+%s' % ('bbtu', 'mark@ekivemark.com', date.isoformat())
+        key_name = '%s+%s+%s' % ('bbtu',
+                                 'mark@ekivemark.com',
+                                 date.isoformat())
         subup = model.SubscriberUpdate.get_by_id(key_name)
         self.assertTrue(subup.sent)
 
