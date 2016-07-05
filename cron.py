@@ -14,7 +14,7 @@ from google.appengine.api import mail
 import model
 #from .settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".11"
+RELEASE = ".17"
 
 class CronUpdateHandler(webapp2.RequestHandler):
 
@@ -32,15 +32,22 @@ class CronUpdateHandler(webapp2.RequestHandler):
         """
         day = "{:%b %d, %Y}".format(date)
 
-        header = "Just reply with a few brief bullets starting with *. \n"
+        header = "Just reply with a few brief bullets " \
+                 "starting with *. \n"
         header += "Start line with '* ^' to identify completed item. \n"
-        header += "Start line with '* !' to identify priority item or issue. \n"
-        header += "Use #hashtag to indicate a category. eg. #BBonFHIR or #HAPI. \n"
+        header += "Start line with '* !' to identify priority " \
+                  "item or issue. \n"
+        header += "Use #hashtag to indicate a category. " \
+                  "eg. #BBonFHIR or #HAPI. \n"
         header += "Finish with [DONE] if there is extraneous or quoted "
         header += "text at the end of the e-mail reply.\n"
-        header += "If you send send more than 1 email the last sent email is used. "
+        header += "If you send send more than 1 email the last " \
+                  "sent email is used. "
         header += "[BBTU-V:"+str(VERSION)+str(RELEASE)+"] \n"
-        header += "goto http://issues.hhsdevcloud.us for more project details in JIRA. \n"
+        header += "https://bb-team-update.appspot.com for more " \
+                  "info and help.\n"
+        header += "goto http://issues.hhsdevcloud.us for more " \
+                  "project details in JIRA. \n"
 
 
         fields = dict(
@@ -94,14 +101,16 @@ class CronDigestHandler(webapp2.RequestHandler):
         Sends update reminder email to subscriber.
         """
         day = "{:%b %d, %Y}".format(date)
-        reply_to = 'BBTU <noreply@bb-team-update.appspotmail.com>'
+        reply_to = team.upper()+' <noreply@bb-team-update.appspotmail.com>'
+        digest += "\n goto http://issues.hhsdevcloud.us for more " \
+                  "project details in JIRA. \n"
         fields = dict(
             sender=reply_to,
             to=to,
             reply_to=reply_to,
             subject='[BB-Team-update] %s team Digest - %s' % (team.upper(),
                                                            day),
-                                                           body=digest)
+            body=digest)
         return mail.EmailMessage(**fields)
 
     @classmethod
@@ -156,7 +165,7 @@ class CronDigestHandler(webapp2.RequestHandler):
                 if tag in l.lower():
                     if l.endswith('\r'):
                         l = l[:-1]
-                    hashtag[tag].append(l + "[" + x.name + "]")
+                    hashtag[tag].append(l + "  [" + x.name + "]")
 
         logging.info("Hashtags: %s" % hashtag)
 
@@ -176,15 +185,43 @@ class CronDigestHandler(webapp2.RequestHandler):
         logging.info("Hash list: %s" % hash_list)
 
         for tag,value in hash_list:
+            logging.info("processing tag: %s" % tag)
             if tag in hashtag_string:
                 pass
             else:
                 # strip \n from Tag so that : prints on same line
                 hashtag_string += tag.rstrip("\n") + ":\n"
             for line in value:
+                logging.info("processing: %s" % line)
+                if "#JIRA " in line.upper():
+                    line = cls.add_jira(line)
                 hashtag_string += line + "\n"
 
         return hashtag_string.encode('utf8')
+
+    @classmethod
+    def add_jira(cls, line):
+        """ Replace #JIRA {task_id} with JIRA_ISSUE_URL/{Task_id}"""
+        JIRA_ISSUE_URL = "http://issues.hhsdevcloud.us/browse/"
+
+        logging.info('convert jira link:%s' % line)
+
+        jira_call = ""
+        words = line.encode('utf8').split(" ")
+        for position, w in enumerate(words):
+            if w.upper() == "#JIRA":
+                if position < len(words):
+                    jira_call = JIRA_ISSUE_URL + words[position +1]
+                    words[position] = ""
+                    words[position + 1] = jira_call
+
+        rebuilt_line = ""
+        for w in words:
+            rebuilt_line += w + " "
+
+        logging.info("rebuilt line: %s" % rebuilt_line)
+
+        return rebuilt_line
 
     @classmethod
     def process_digest(cls, team, test=None):

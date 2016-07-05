@@ -17,14 +17,25 @@
 import webapp2
 #from settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".11"
+RELEASE = ".17"
+# Remember to change times in message below to match cron timetable
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('<html><body><b>Team updater [V:'+str(VERSION)+str(RELEASE)+']</b>: Share your progress.<br/>')
-        self.response.write('Updates are sent every weekday morning at 9:00am.<br/>')
-        self.response.write('Consolidated digests are sent the same evening at 5:00pm.<br/>')
-        self.response.write('The Team decision is to issue updates and digests every weekday.<br/>')
-        self.response.write('If you send multiple email replies in a single day only the last one is recorded.<br/></body></html>')
+        self.response.write('<html><body><b>Team '
+                            'updater [V:'+str(VERSION)+str(RELEASE)+']</b>: '
+                            'Share your progress.<br/>')
+        self.response.write('Updates are sent every weekday morning '
+                            'at 8:00am.<br/>')
+        self.response.write('Consolidated digests are sent the '
+                            'same evening at 7:00pm.<br/>')
+        self.response.write('The Team decision is to issue updates and '
+                            'digests every weekday.<br/>')
+        self.response.write('To link to JIRA use #JIRA followed by JIRA '
+                            'Task Id. eg. #JIRA CFFB-21. <br/>' )
+        self.response.write('If you send multiple email replies in a '
+                            'single day only the last one is recorded.'
+                            '<br/></body></html>')
 
 app = webapp2.WSGIApplication([ ('/', MainHandler) ], debug=True)

@@ -1,12 +1,12 @@
 cron:
 # BBTU team
 # If you change the Cron Time from 9:00 AM remember to update
-# breaks list in update.py
+# breaks list in update.py and main.py
 - description: Sends BB-Team-update request email to all subscribers
   url: /cron/update/bbtu
-  schedule: every monday,tuesday,wednesday,thursday,friday 09:00
+  schedule: every monday,tuesday,wednesday,thursday,friday 08:00
   timezone: America/New_York
 - description: Sends BB-Team-update digest email to all subscribers
   url: /cron/digest/bbtu
-  schedule: every monday,tuesday,wednesday,thursday,friday 17:00
+  schedule: every monday,tuesday,wednesday,thursday,friday 19:00
   timezone: America/New_York
