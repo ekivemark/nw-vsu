@@ -59,3 +59,8 @@ docs/_build/
 target/
 
 # Created by .ignore support plugin (hsz.mobi)
+.idea/
+newwave_blue_long.png
+nw-vsu/app.yaml
+nw-vsu/index.yaml
+nw-vsu/main.py

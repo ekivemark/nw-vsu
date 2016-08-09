@@ -13,7 +13,7 @@ a digest e-mail is sent out to the group.
 To subscribe people to the update, admins (Mark) 
 subscribe people over email by sending the APP a request. 
 For example, to subscribe Chris and Niel, 
-we send this to our messaging server via `admin@bb-team-update.appspotmail.com`:
+we send this to our messaging server via `admin@nw-vsu.appspotmail.com`:
 
     Chris Kox, chris.kox@cms.hhs.gov, vsu, subscribe  
     Niel Bannon, niel.bannonw@cms.hhs.gov, vsu, subscribe

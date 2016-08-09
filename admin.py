@@ -10,7 +10,8 @@ from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
 import model
 
 _ADMINS = [
-    'mark.scrimshire@newwave.io',
+    'Mark.Scrimshire@newwave.io',
+    'mark@ekivemark.com'
 ]
 
 
