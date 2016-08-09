@@ -15,7 +15,7 @@ def _process(line, team='vsu', status='subscribe', bundle=False):
 
     if bundle:
         team_bundler = {
-            'Mark Scrimshire': 'BlueButtonOnFHIR',}
+            'Mark Scrimshire': 'Virtual-Stand-Up',}
         if name in team_bundler.keys():
             name = team_bundler[name]
 

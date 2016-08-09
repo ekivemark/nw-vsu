@@ -10,3 +10,15 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: SubscriberUpdate
+  properties:
+  - name: date
+  - name: team
+  - name: name
+    direction: desc
+
+- kind: Update
+  properties:
+  - name: team
+  - name: date
+    direction: desc

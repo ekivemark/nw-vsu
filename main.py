@@ -17,7 +17,7 @@
 import webapp2
 #from settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".18"
+RELEASE = ".19"
 # Remember to change times in message below to match cron timetable
 
 
