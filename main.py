@@ -17,25 +17,38 @@
 import webapp2
 #from settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".17"
+RELEASE = ".18"
 # Remember to change times in message below to match cron timetable
 
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('<html><body><b>Team '
-                            'updater [V:'+str(VERSION)+str(RELEASE)+']</b>: '
+        self.response.write('<html>'
+                            '<head>'
+                            '<link rel="icon" type="image/x-icon" href="http://www.newwave.io/wp-content/uploads/2016/01/NWfavicon.ico" />'
+                            '</head>'
+                            '<body>'
+                            '<a href="http://newwave.io">'
+                            '<img src="https://share.newwave-technologies.com/Home/Style%20Library/'
+                            'CustomBranding/images/NWT%20Logo.jpg"></a><br/>'
+                            '<b><font size="6">Virtual Stand-Up</font><br/> '
+                            '[V:'
+                            +str(VERSION)+str(RELEASE)+']</b>: '
                             'Share your progress.<br/>')
-        self.response.write('Updates are sent every weekday morning '
-                            'at 8:00am.<br/>')
-        self.response.write('Consolidated digests are sent the '
-                            'same evening at 7:00pm.<br/>')
-        self.response.write('The Team decision is to issue updates and '
-                            'digests every weekday.<br/>')
+        self.response.write('Update Requests are sent every weekday morning '
+                            'at 8:00am ET. <br/>'
+                            'The subject line is prefixed with [VSU].<br/>')
+        self.response.write('Consolidated digests are sent out the '
+                            'same day at 12:30pm ET.<br/>')
+        self.response.write('Start each item with a * .<br/>'
+                            'Keep items brief (A single line per bullet is best).<br/>')
         self.response.write('To link to JIRA use #JIRA followed by JIRA '
-                            'Task Id. eg. #JIRA CFFB-21. <br/>' )
+                            'Task Id. eg. #JIRA CFFB-21. <br/>'
+                            'Group bullets by topic using #Hashtags.<br/>' )
         self.response.write('If you send multiple email replies in a '
-                            'single day only the last one is recorded.'
-                            '<br/></body></html>')
+                            'single day only the last one received before the digest is published is reported.'
+                            '<br/>'
+                            "Don't reuse a previous day's message. The Id in the 'reply to' address changes every day.<br/>"
+                            '</body></html>')
 
 app = webapp2.WSGIApplication([ ('/', MainHandler) ], debug=True)

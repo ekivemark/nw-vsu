@@ -10,9 +10,7 @@ from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
 import model
 
 _ADMINS = [
-    'mark@ekivemark.com',
-    'lori.maatta@cms.hhs.gov',
-    'karl.davis@cms.hhs.gov'
+    'mark.scrimshire@newwave.io',
 ]
 
 
@@ -52,12 +50,12 @@ class AdminHandler(InboundMailHandler):
     @classmethod
     def get_subscription_msg(cls, to, report):
         """Returns EmailMessage for supplied recipient and report."""
-        reply_to = 'BBTU <noreply@bb-team-update.appspotmail.com>'
+        reply_to = 'VSU <noreply@nw-vsu.appspotmail.com>'
         fields = dict(
             sender=reply_to,
             to=to,
             reply_to=reply_to,
-            subject='[BBTU] Admin confirmation - Your changes were saved',
+            subject='[VSU] Admin confirmation - Your changes were saved',
             body=report)
         return mail.EmailMessage(**fields)
 

@@ -1,12 +1,11 @@
 """
-Prep subscription email from CSV with fields 'first', 'last', 'agency', and
+Prep subscription email from CSV with fields 'first', 'last', 'team', and
 'email'.  Saves a CSV that can be copied into the body of an email to
 admin@piffer-updates.appspotmail.com in order to manage team snippet
 subscriptions.
 """
 
-
-def _process(line, team='bbtu', status='subscribe', bundle=False):
+def _process(line, team='vsu', status='subscribe', bundle=False):
     """
     Accepts a line with {first},{last},{agency},{email} and returns a
     properly formatted string for subscription email.
@@ -16,12 +15,7 @@ def _process(line, team='bbtu', status='subscribe', bundle=False):
 
     if bundle:
         team_bundler = {
-            'Mark Scrimshire': 'OEDA BlueButtonOnFHIR',
-            'Karl Davis': 'OEDA BlueButtonOnFHIR',
-            'Lori Maatta': 'OEDA BlueButtonOnFHIR',
-            'Carly Medosch': 'OEDA BlueButtonOnFHIR',
-            'Alan Viars': 'OEDA BlueButtonOnFHIR'
-        }
+            'Mark Scrimshire': 'BlueButtonOnFHIR',}
         if name in team_bundler.keys():
             name = team_bundler[name]
 
@@ -36,4 +30,4 @@ def convert_csv(csv_path='subscribe.csv'):
     with open(csv_path) as f:
         content = f.readlines()
     for l in content:
-        print _process(l)
+        print(_process(l))

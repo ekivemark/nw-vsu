@@ -1,12 +1,12 @@
 cron:
-# BBTU team
+# NW-VSU team
 # If you change the Cron Time from 9:00 AM remember to update
 # breaks list in update.py and main.py
-- description: Sends BB-Team-update request email to all subscribers
-  url: /cron/update/bbtu
+- description: Sends NW-VSU request email to all subscribers
+  url: /cron/update/vsu
   schedule: every monday,tuesday,wednesday,thursday,friday 08:00
   timezone: America/New_York
-- description: Sends BB-Team-update digest email to all subscribers
-  url: /cron/digest/bbtu
-  schedule: every monday,tuesday,wednesday,thursday,friday 19:00
+- description: Sends NW-VSU digest email to all subscribers
+  url: /cron/digest/vsu
+  schedule: every monday,tuesday,wednesday,thursday,friday 12:30
   timezone: America/New_York

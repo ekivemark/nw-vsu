@@ -14,7 +14,8 @@ from google.appengine.api import mail
 import model
 #from .settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".17"
+RELEASE = ".18"
+JIRA_URL = "https://nwtjira.atlassian.net"
 
 class CronUpdateHandler(webapp2.RequestHandler):
 
@@ -23,7 +24,7 @@ class CronUpdateHandler(webapp2.RequestHandler):
         """
         Return update email reply address given supplied urlsafe string.
         """
-        return 'BBTU <update+%s@bb-team-update.appspotmail.com>' % urlsafe
+        return 'VSU <update+%s@nw-vsu.appspotmail.com>' % urlsafe
 
     @classmethod
     def get_update_message(cls, team, to, sender, date):
@@ -38,15 +39,15 @@ class CronUpdateHandler(webapp2.RequestHandler):
         header += "Start line with '* !' to identify priority " \
                   "item or issue. \n"
         header += "Use #hashtag to indicate a category. " \
-                  "eg. #BBonFHIR or #HAPI. \n"
+                  "eg. #NewWave or #Agile. \n"
         header += "Finish with [DONE] if there is extraneous or quoted "
         header += "text at the end of the e-mail reply.\n"
         header += "If you send send more than 1 email the last " \
                   "sent email is used. "
-        header += "[BBTU-V:"+str(VERSION)+str(RELEASE)+"] \n"
-        header += "https://bb-team-update.appspot.com for more " \
+        header += "[VSU-V:"+str(VERSION)+str(RELEASE)+"] \n"
+        header += "https://nw-vsu.appspot.com for more " \
                   "info and help.\n"
-        header += "goto http://issues.hhsdevcloud.us for more " \
+        header += "goto "+ JIRA_URL+" for more " \
                   "project details in JIRA. \n"
 
 
@@ -54,7 +55,7 @@ class CronUpdateHandler(webapp2.RequestHandler):
             sender=sender,
             to=to,
             reply_to=sender,
-            subject='[BB-Team-update] Send %s updates - %s' % (team.upper(),
+            subject='[VSU] Send %s updates - %s' % (team.upper(),
                                                            day),
             body=header)
         return mail.EmailMessage(**fields)
@@ -101,14 +102,14 @@ class CronDigestHandler(webapp2.RequestHandler):
         Sends update reminder email to subscriber.
         """
         day = "{:%b %d, %Y}".format(date)
-        reply_to = team.upper()+' <noreply@bb-team-update.appspotmail.com>'
-        digest += "\n goto http://issues.hhsdevcloud.us for more " \
+        reply_to = team.upper()+' <noreply@nw-vsu.appspotmail.com>'
+        digest += "\n goto "+JIRA_URL+" for more " \
                   "project details in JIRA. \n"
         fields = dict(
             sender=reply_to,
             to=to,
             reply_to=reply_to,
-            subject='[BB-Team-update] %s team Digest - %s' % (team.upper(),
+            subject='[VSU] %s Virtual Standup Digest - %s' % (team.upper(),
                                                            day),
             body=digest)
         return mail.EmailMessage(**fields)
@@ -202,7 +203,7 @@ class CronDigestHandler(webapp2.RequestHandler):
     @classmethod
     def add_jira(cls, line):
         """ Replace #JIRA {task_id} with JIRA_ISSUE_URL/{Task_id}"""
-        JIRA_ISSUE_URL = "http://issues.hhsdevcloud.us/browse/"
+        JIRA_ISSUE_URL = JIRA_URL+"/browse/"
 
         logging.info('convert jira link:%s' % line)
 
