@@ -25,5 +25,9 @@ handlers:
   script: cron.handlers
   login: admin
 
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
 - url: /.*
   script: main.app

@@ -11,6 +11,7 @@ import model
 
 _ADMINS = [
     'Mark.Scrimshire@newwave.io',
+    'mark.scrimshire@newwave.io',
     'mark@ekivemark.com'
 ]
 

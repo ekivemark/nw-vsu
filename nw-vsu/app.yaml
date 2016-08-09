@@ -1,17 +1,33 @@
 application: nw-vsu
-version: 1
+version: v2-4
 runtime: python27
+threadsafe: true
 api_version: 1
-threadsafe: yes
+
+inbound_services:
+- mail
+
+libraries:
+- name: webapp2
+  version: "latest"
 
 handlers:
+
+- url: /_ah/mail/admin.*
+  script: admin.handlers
+  login: admin
+
+- url: /_ah/mail/update.*
+  script: update.handlers
+  login: admin
+
+- url: /cron/.+
+  script: cron.handlers
+  login: admin
+
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: .*
+- url: /.*
   script: main.app
-
-libraries:
-- name: webapp2
-  version: "2.5.2"
