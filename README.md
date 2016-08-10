@@ -45,6 +45,10 @@ That's it. Pretty simple.
 
 ## Current Version
 
+version: **v2.4-20**
+
+Suppress JIRA URL if no #JIRA in digest message
+
 version: **v2.4-19**
 
 Changed Cron jobs to 08:00 and 12:30 EDT

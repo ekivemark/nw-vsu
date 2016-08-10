@@ -14,7 +14,7 @@ from google.appengine.api import mail
 import model
 #from .settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".19"
+RELEASE = ".20"
 JIRA_URL = "https://nwtjira.atlassian.net"
 
 class CronUpdateHandler(webapp2.RequestHandler):
@@ -55,7 +55,7 @@ class CronUpdateHandler(webapp2.RequestHandler):
             sender=sender,
             to=to,
             reply_to=sender,
-            subject='[VSU] Send %s updates - %s' % (team.upper(),
+            subject='[nw-vsu] Send %s updates - %s' % (team.upper(),
                                                            day),
             body=header)
         return mail.EmailMessage(**fields)
@@ -103,13 +103,14 @@ class CronDigestHandler(webapp2.RequestHandler):
         """
         day = "{:%b %d, %Y}".format(date)
         reply_to = team.upper()+' <noreply@nw-vsu.appspotmail.com>'
-        digest += "\n goto "+JIRA_URL+" for more " \
-                  "project details in JIRA. \n"
+        if "#JIRA" in digest:
+            digest += "\n goto "+JIRA_URL+" for more " \
+                      "project details in JIRA. \n"
         fields = dict(
             sender=reply_to,
             to=to,
             reply_to=reply_to,
-            subject='[VSU] %s Virtual Standup Digest - %s' % (team.upper(),
+            subject='[nw-vsu] %s Virtual Standup Digest - %s' % (team.upper(),
                                                            day),
             body=digest)
         return mail.EmailMessage(**fields)
@@ -228,7 +229,7 @@ class CronDigestHandler(webapp2.RequestHandler):
     def process_digest(cls, team, test=None):
         update = model.Update.latest(team)
         if not update:
-            logging.info('No Update to process for digest')
+            logging.info('No Update to process for team:%s digest' % team)
             return
         digest = ''.join(
             map(cls.get_update, cls.get_subscriber_updates(team, update.date)))
@@ -241,7 +242,7 @@ class CronDigestHandler(webapp2.RequestHandler):
         hashlist = cls.sort_highlights(hashtags)
 
         digest += hashlist
-
+        logging.info("Digest:%s" % digest)
         if test:
             return digest
         if not digest:
