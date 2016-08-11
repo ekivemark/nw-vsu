@@ -18,6 +18,8 @@ import webapp2
 #from settings import VERSION, RELEASE
 VERSION = "2.4"
 RELEASE = ".21"
+CRON_UPDATE_TIME = "8:00am ET"
+CRON_DIGEST_TIME = "12:30pm ET"
 # Remember to change times in message below to match cron timetable
 
 
@@ -36,10 +38,10 @@ class MainHandler(webapp2.RequestHandler):
                             +str(VERSION)+str(RELEASE)+']</b>: '
                             'Share your progress.<br/>')
         self.response.write('Update Requests are sent every weekday morning '
-                            'at 8:00am ET. <br/>'
+                            'at '+CRON_UPDATE_TIME+'<br/>'
                             'The subject line is prefixed with [VSU].<br/>')
         self.response.write('Consolidated digests are sent out the '
-                            'same day at 12:30pm ET.<br/>')
+                            'same day at '+CRON_DIGEST_TIME+'.<br/>')
         self.response.write('Start each item with a * .<br/>'
                             'Keep items brief (A single line per bullet is best).<br/>')
         self.response.write('To link to JIRA use #JIRA followed by JIRA '

@@ -47,9 +47,10 @@ That's it. Pretty simple.
 
 version: **v2.4-21**
 
-Suppress Add CRON_DIGEST_TIME to Update Message.
-Added not for CRON_DIGEST_TIME in cron.py
+Add CRON_DIGEST_TIME to Update Message Subject line.
+Added note for CRON_DIGEST_TIME in cron.py
 Added , between fields in admin response message for easier reprocessing
+Add CRON_UPDATE_TIME and CRON_DIGEST_TIME in main.py help page.
 
 version: **v2.4-20**
 
