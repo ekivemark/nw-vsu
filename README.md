@@ -45,6 +45,12 @@ That's it. Pretty simple.
 
 ## Current Version
 
+version: **v2.4-21**
+
+Suppress Add CRON_DIGEST_TIME to Update Message.
+Added not for CRON_DIGEST_TIME in cron.py
+Added , between fields in admin response message for easier reprocessing
+
 version: **v2.4-20**
 
 Suppress JIRA URL if no #JIRA in digest message

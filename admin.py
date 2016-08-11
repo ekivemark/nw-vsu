@@ -45,7 +45,7 @@ class AdminHandler(InboundMailHandler):
     @classmethod
     def get_subscription_report(cls, subscriptions):
         """Return text report from sequence of Subscription dictionaries."""
-        return '\n'.join([u'{name} <{mail}> {team} {status} {role}'
+        return '\n'.join([u'{name}, {mail}, {team}, {status}, {role}'
                .format(**x)
                for x in subscriptions])
 

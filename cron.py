@@ -14,8 +14,10 @@ from google.appengine.api import mail
 import model
 #from .settings import VERSION, RELEASE
 VERSION = "2.4"
-RELEASE = ".20"
+RELEASE = ".21"
 JIRA_URL = "https://nwtjira.atlassian.net"
+# Set CRON_DIGEST_TIME to match CRON DIGEST time in cron.yaml
+CRON_DIGEST_TIME = "12:30pm ET"
 
 class CronUpdateHandler(webapp2.RequestHandler):
 
@@ -55,8 +57,9 @@ class CronUpdateHandler(webapp2.RequestHandler):
             sender=sender,
             to=to,
             reply_to=sender,
-            subject='[nw-vsu] Send %s updates - %s' % (team.upper(),
-                                                           day),
+            subject='[nw-vsu] Send %s updates by %s on %s' % (team.upper(),
+                                                              CRON_DIGEST_TIME,
+                                                              day),
             body=header)
         return mail.EmailMessage(**fields)
 
@@ -103,7 +106,7 @@ class CronDigestHandler(webapp2.RequestHandler):
         """
         day = "{:%b %d, %Y}".format(date)
         reply_to = team.upper()+' <noreply@nw-vsu.appspotmail.com>'
-        if "#JIRA" in digest:
+        if "#JIRA" in digest.upper():
             digest += "\n goto "+JIRA_URL+" for more " \
                       "project details in JIRA. \n"
         fields = dict(
